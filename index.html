@@ -2,19 +2,36 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Temp Mail</title>
+  <title>TempMail</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <h1>📩 Mail Temporaire</h1>
+  <main class="container">
+    <div class="card">
 
-  <button id="generateBtn">Générer un mail</button>
+      <h1>📩 TempMail</h1>
+      <p class="subtitle">
+        Génère un mail temporaire et reçois tes codes instantanément.
+      </p>
 
-  <p id="email"></p>
+      <button id="generateBtn">Générer une adresse</button>
 
-  <h2>Boîte de réception</h2>
-  <ul id="inbox"></ul>
+      <div id="emailBox" class="email-box hidden">
+        <span id="email"></span>
+        <button id="copyBtn">Copier</button>
+      </div>
+
+      <div class="inbox">
+        <h2>Boîte de réception</h2>
+        <div id="messages" class="messages">
+          <p class="empty">Aucun message pour le moment</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
 
   <script src="app.js"></script>
 </body>
