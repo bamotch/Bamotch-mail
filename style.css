@@ -1,128 +1,77 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  min-height: 100vh;
-  font-family: "Inter", system-ui, sans-serif;
+  height: 100vh;
   background: linear-gradient(135deg, #020617, #020617);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  font-family: Inter, system-ui, sans-serif;
   color: #e5e7eb;
 }
 
-.wrapper {
-  width: 100%;
-  padding: 20px;
-}
+.app { width: 100%; padding: 20px; }
 
 .card {
   max-width: 420px;
   margin: auto;
   background: #020617;
-  border: 1px solid #1e293b;
-  border-radius: 20px;
+  border-radius: 18px;
   padding: 25px;
-  box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-  text-align: center;
+  box-shadow: 0 30px 60px rgba(0,0,0,.6);
+  border: 1px solid #1e293b;
 }
 
-h1 {
-  color: #38bdf8;
-  margin-bottom: 8px;
-}
-
-.subtitle {
-  font-size: 0.9rem;
-  opacity: 0.8;
-  margin-bottom: 20px;
-}
+h1 { text-align: center; color: #38bdf8; }
+.tagline { text-align: center; opacity: .7; margin-bottom: 20px; }
 
 button {
   width: 100%;
   padding: 14px;
-  margin-top: 10px;
+  margin-top: 12px;
   border: none;
   border-radius: 12px;
-  font-weight: bold;
+  font-weight: 700;
   background: #38bdf8;
   color: #020617;
   cursor: pointer;
-  transition: transform 0.1s ease;
 }
 
-button:hover {
-  transform: scale(1.03);
-}
-
-#emailContainer {
+.email-zone {
   display: flex;
   gap: 8px;
-  margin-top: 15px;
+  margin-top: 12px;
 }
 
-#emailInput {
+input {
   flex: 1;
   padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #1e293b;
   background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
   color: #22c55e;
-  font-size: 0.85rem;
 }
 
-#copyBtn {
-  background: #22c55e;
-}
+#copy { background: #22c55e; }
+
+h2 { margin: 25px 0 10px; font-size: 1rem; }
 
 .inbox {
-  margin-top: 30px;
-  text-align: left;
-}
-
-.inbox h2 {
-  margin-bottom: 10px;
-  font-size: 1rem;
-}
-
-.message {
   background: #020617;
   border: 1px solid #1e293b;
   border-radius: 12px;
   padding: 12px;
-  margin-bottom: 10px;
+  min-height: 80px;
 }
 
-.message strong {
-  display: block;
-  margin-bottom: 4px;
-}
-
-.message small {
-  opacity: 0.7;
-}
-
-.message a {
-  display: inline-block;
-  margin-top: 6px;
-  color: #38bdf8;
-  text-decoration: none;
-}
-
-.empty {
-  opacity: 0.6;
-  text-align: center;
+.mail {
+  padding: 10px;
+  border-bottom: 1px solid #1e293b;
 }
 
 footer {
-  margin-top: 30px;
+  margin-top: 25px;
   font-size: 0.75rem;
-  opacity: 0.6;
-}
-
-.hidden {
-  display: none;
+  opacity: .6;
+  text-align: center;
 }
