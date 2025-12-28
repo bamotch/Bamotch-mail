@@ -1,97 +1,63 @@
-document.addEventListener("DOMContentLoaded", () => {
+const API = "https://api.mail.tm";
 
-  const generateBtn = document.getElementById("generateBtn");
-  const copyBtn = document.getElementById("copyBtn");
-  const emailInput = document.getElementById("emailInput");
-  const emailContainer = document.getElementById("emailContainer");
-  const messagesDiv = document.getElementById("messages");
+const btnGenerate = document.getElementById("generate");
+const btnCopy = document.getElementById("copy");
+const emailInput = document.getElementById("email");
+const inbox = document.getElementById("inbox");
 
-  const PROXY = "https://cors.isomorphic-git.org/";
-  const API = "https://www.1secmail.com/api/v1/";
+let token = "";
+let accountId = "";
 
-  let login = "";
-  let domain = "";
-  let interval = null;
+btnGenerate.onclick = generateMail;
+btnCopy.onclick = () => navigator.clipboard.writeText(emailInput.value);
 
-  generateBtn.addEventListener("click", generateEmail);
-  copyBtn.addEventListener("click", copyEmail);
+async function generateMail() {
+  inbox.textContent = "Chargement...";
+  
+  const domainRes = await fetch(API + "/domains");
+  const domain = (await domainRes.json())["hydra:member"][0].domain;
 
-  async function generateEmail() {
-    generateBtn.textContent = "Génération...";
-    generateBtn.disabled = true;
+  const address = Math.random().toString(36).substring(2,10) + "@" + domain;
+  const password = "pass123456";
 
-    messagesDiv.innerHTML = `<p class="empty">Aucun message reçu</p>`;
-    clearInterval(interval);
+  const acc = await fetch(API + "/accounts", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ address, password })
+  });
 
-    try {
-      const res = await fetch(
-        PROXY + API + "?action=genRandomMailbox&count=1"
-      );
-      const data = await res.json();
+  const data = await acc.json();
+  accountId = data.id;
+  emailInput.value = address;
 
-      const email = data[0];
-      emailInput.value = email;
-      emailContainer.classList.remove("hidden");
+  const auth = await fetch(API + "/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ address, password })
+  });
 
-      [login, domain] = email.split("@");
+  token = (await auth.json()).token;
 
-      interval = setInterval(loadInbox, 5000);
-    } catch (e) {
-      alert("Erreur lors de la génération du mail.");
-      console.error(e);
-    }
+  setInterval(loadInbox, 5000);
+}
 
-    generateBtn.textContent = "Générer une adresse";
-    generateBtn.disabled = false;
+async function loadInbox() {
+  const res = await fetch(API + "/messages", {
+    headers: { Authorization: "Bearer " + token }
+  });
+
+  const mails = (await res.json())["hydra:member"];
+  inbox.innerHTML = "";
+
+  if (mails.length === 0) {
+    inbox.textContent = "Aucun message";
+    return;
   }
 
-  async function loadInbox() {
-    try {
-      const res = await fetch(
-        PROXY + API +
-        `?action=getMessages&login=${login}&domain=${domain}`
-      );
-      const mails = await res.json();
-
-      if (mails.length === 0) return;
-
-      messagesDiv.innerHTML = "";
-
-      mails.forEach(mail => {
-        const div = document.createElement("div");
-        div.className = "message";
-        div.innerHTML = `
-          <strong>${mail.subject}</strong>
-          <small>${mail.from}</small><br>
-          <a href="#">Lire le message</a>
-        `;
-        div.querySelector("a").addEventListener("click", () => readMail(mail.id));
-        messagesDiv.appendChild(div);
-      });
-    } catch (e) {
-      console.error("Erreur inbox", e);
-    }
-  }
-
-  async function readMail(id) {
-    try {
-      const res = await fetch(
-        PROXY + API +
-        `?action=readMessage&login=${login}&domain=${domain}&id=${id}`
-      );
-      const mail = await res.json();
-
-      const win = window.open();
-      win.document.write(mail.htmlBody || `<pre>${mail.textBody}</pre>`);
-    } catch (e) {
-      console.error("Erreur lecture mail", e);
-    }
-  }
-
-  function copyEmail() {
-    navigator.clipboard.writeText(emailInput.value);
-    copyBtn.textContent = "Copié ✔";
-    setTimeout(() => copyBtn.textContent = "Copier", 1500);
-  }
-
-});
+  mails.forEach(m => {
+    const div = document.createElement("div");
+    div.className = "mail";
+    div.innerHTML = `<strong>${m.subject}</strong><br>${m.from.address}`;
+    inbox.appendChild(div);
+  });
+}
