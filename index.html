@@ -3,41 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <title>TempMail</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="wrapper">
-    <div class="card">
+<div class="app">
+  <div class="card">
 
-      <h1>📬 TempMail</h1>
-      <p class="subtitle">
-        Génère un mail temporaire et reçois tes messages instantanément
-      </p>
+    <h1>TempMail</h1>
+    <p class="tagline">Mail temporaire. Rapide. Fonctionnel.</p>
 
-      <button id="generateBtn">Générer une adresse</button>
+    <button id="generate">Générer un mail</button>
 
-      <div id="emailContainer" class="hidden">
-        <input type="text" id="emailInput" readonly>
-        <button id="copyBtn">Copier</button>
-      </div>
-
-      <div class="inbox">
-        <h2>Boîte de réception</h2>
-        <div id="messages">
-          <p class="empty">Aucun message reçu</p>
-        </div>
-      </div>
-
-      <footer>
-        Développé par <strong>TAHIROU DESIGN STUDIO</strong><br>
-        © 2025 — Tous droits réservés
-      </footer>
-
+    <div class="email-zone">
+      <input id="email" readonly placeholder="Adresse générée ici">
+      <button id="copy">Copier</button>
     </div>
-  </div>
 
-  <script src="app.js"></script>
+    <h2>Boîte de réception</h2>
+    <div id="inbox" class="inbox">Aucun message</div>
+
+    <footer>
+      Développé par <strong>TAHIROU DESIGN STUDIO</strong><br>
+      © 2025 — Tous droits réservés
+    </footer>
+
+  </div>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
