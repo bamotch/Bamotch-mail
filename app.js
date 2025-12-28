@@ -1,12 +1,20 @@
+const generateBtn = document.getElementById("generateBtn");
+const copyBtn = document.getElementById("copyBtn");
+const emailBox = document.getElementById("emailBox");
+const emailEl = document.getElementById("email");
+const messagesEl = document.getElementById("messages");
+
 let login = "";
 let domain = "";
+let inboxInterval = null;
 
-const emailEl = document.getElementById("email");
-const inboxEl = document.getElementById("inbox");
+generateBtn.addEventListener("click", generateEmail);
+copyBtn.addEventListener("click", copyEmail);
 
-document.getElementById("generateBtn").addEventListener("click", generateMail);
+async function generateEmail() {
+  clearInterval(inboxInterval);
+  messagesEl.innerHTML = `<p class="empty">Aucun message pour le moment</p>`;
 
-async function generateMail() {
   const res = await fetch(
     "https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=1"
   );
@@ -14,34 +22,35 @@ async function generateMail() {
 
   const email = data[0];
   emailEl.textContent = email;
+  emailBox.classList.remove("hidden");
 
   [login, domain] = email.split("@");
 
-  inboxEl.innerHTML = "";
-  startChecking();
+  inboxInterval = setInterval(loadInbox, 5000);
 }
 
-async function startChecking() {
-  setInterval(async () => {
-    if (!login) return;
+async function loadInbox() {
+  if (!login) return;
 
-    const res = await fetch(
-      `https://www.1secmail.com/api/v1/?action=getMessages&login=${login}&domain=${domain}`
-    );
-    const messages = await res.json();
+  const res = await fetch(
+    `https://www.1secmail.com/api/v1/?action=getMessages&login=${login}&domain=${domain}`
+  );
+  const mails = await res.json();
 
-    inboxEl.innerHTML = "";
+  if (mails.length === 0) return;
 
-    for (let msg of messages) {
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <strong>${msg.subject}</strong><br/>
-        <small>${msg.from}</small><br/>
-        <button onclick="readMail(${msg.id})">Lire</button>
-      `;
-      inboxEl.appendChild(li);
-    }
-  }, 5000);
+  messagesEl.innerHTML = "";
+  mails.forEach(mail => {
+    const div = document.createElement("div");
+    div.className = "message";
+    div.innerHTML = `
+      <strong>${mail.subject}</strong>
+      <small>${mail.from}</small>
+      <a href="#" data-id="${mail.id}">Lire</a>
+    `;
+    div.querySelector("a").addEventListener("click", () => readMail(mail.id));
+    messagesEl.appendChild(div);
+  });
 }
 
 async function readMail(id) {
@@ -50,5 +59,12 @@ async function readMail(id) {
   );
   const mail = await res.json();
 
-  alert(mail.textBody || "Mail HTML reçu");
+  const win = window.open();
+  win.document.write(mail.htmlBody || `<pre>${mail.textBody}</pre>`);
+}
+
+function copyEmail() {
+  navigator.clipboard.writeText(emailEl.textContent);
+  copyBtn.textContent = "Copié ✔";
+  setTimeout(() => (copyBtn.textContent = "Copier"), 1500);
 }
