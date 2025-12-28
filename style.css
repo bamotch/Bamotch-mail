@@ -1,20 +1,20 @@
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
   min-height: 100vh;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   background: linear-gradient(135deg, #020617, #020617);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   color: #e5e7eb;
 }
 
-.container {
+.wrapper {
   width: 100%;
   padding: 20px;
 }
@@ -26,82 +26,74 @@ body {
   border: 1px solid #1e293b;
   border-radius: 20px;
   padding: 25px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+  text-align: center;
 }
 
 h1 {
-  text-align: center;
   color: #38bdf8;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .subtitle {
-  text-align: center;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   opacity: 0.8;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 button {
   width: 100%;
   padding: 14px;
-  border-radius: 12px;
+  margin-top: 10px;
   border: none;
+  border-radius: 12px;
   font-weight: bold;
-  cursor: pointer;
   background: #38bdf8;
   color: #020617;
-  transition: transform 0.1s ease, opacity 0.1s ease;
+  cursor: pointer;
+  transition: transform 0.1s ease;
 }
 
 button:hover {
-  transform: scale(1.02);
-  opacity: 0.95;
+  transform: scale(1.03);
 }
 
-.email-box {
-  margin-top: 15px;
+#emailContainer {
   display: flex;
   gap: 8px;
+  margin-top: 15px;
 }
 
-.email-box span {
+#emailInput {
   flex: 1;
   padding: 12px;
   border-radius: 10px;
-  background: #020617;
   border: 1px solid #1e293b;
-  word-break: break-all;
+  background: #020617;
   color: #22c55e;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
-.email-box button {
-  width: auto;
-  padding: 12px 16px;
+#copyBtn {
   background: #22c55e;
 }
 
 .inbox {
   margin-top: 30px;
+  text-align: left;
 }
 
 .inbox h2 {
-  font-size: 1rem;
   margin-bottom: 10px;
-}
-
-.messages {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  font-size: 1rem;
 }
 
 .message {
-  padding: 12px;
-  border-radius: 12px;
   background: #020617;
   border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
 }
 
 .message strong {
@@ -115,24 +107,22 @@ button:hover {
 
 .message a {
   display: inline-block;
-  margin-top: 8px;
+  margin-top: 6px;
   color: #38bdf8;
   text-decoration: none;
-  font-weight: bold;
 }
 
 .empty {
+  opacity: 0.6;
   text-align: center;
+}
+
+footer {
+  margin-top: 30px;
+  font-size: 0.75rem;
   opacity: 0.6;
 }
 
 .hidden {
   display: none;
-}
-
-/* Mobile */
-@media (max-width: 480px) {
-  .card {
-    padding: 20px;
-  }
 }
