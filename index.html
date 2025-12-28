@@ -1,37 +1,43 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>TempMail</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <main class="container">
+  <div class="wrapper">
     <div class="card">
 
-      <h1>📩 TempMail</h1>
-      <p class="subtitle">
-        Génère un mail temporaire et reçois tes codes instantanément.
-      </p>
+      <h1>📬 TempMail</h1>
+      <p class="subtitle">Génère un mail temporaire et reçois tes messages instantanément</p>
 
+      <!-- Génération -->
       <button id="generateBtn">Générer une adresse</button>
 
-      <div id="emailBox" class="email-box hidden">
-        <span id="email"></span>
+      <!-- Adresse générée -->
+      <div id="emailContainer" class="hidden">
+        <input type="text" id="emailInput" readonly>
         <button id="copyBtn">Copier</button>
       </div>
 
+      <!-- Inbox -->
       <div class="inbox">
         <h2>Boîte de réception</h2>
-        <div id="messages" class="messages">
-          <p class="empty">Aucun message pour le moment</p>
+        <div id="messages">
+          <p class="empty">Aucun message reçu</p>
         </div>
       </div>
 
+      <footer>
+        Développé par <strong>TAHIROU DESIGN STUDIO</strong><br>
+        © 2025 — Tous droits réservés
+      </footer>
+
     </div>
-  </main>
+  </div>
 
   <script src="app.js"></script>
 </body>
